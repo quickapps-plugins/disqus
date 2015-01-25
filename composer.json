@@ -1,0 +1,27 @@
+{
+    "name": "quickapps-plugins/disqus",
+    "description": "Replaces your QuickAppsCMS comment system with your comments hosted and powered by Disqus.",
+    "type": "quickapps-plugin",
+    "keywords": [
+        "framework",
+        "cms",
+        "cmf",
+        "quickapps",
+        "plugin",
+        "comments",
+        "disqus"
+    ],
+    "homepage": "http://quickappscms.org",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Christopher Castro",
+            "email": "chris@quickapps.es"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "quickapps/cms": "2.*"
+    },
+    "version": "1.0"
+}
