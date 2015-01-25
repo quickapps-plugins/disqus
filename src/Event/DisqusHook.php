@@ -34,6 +34,7 @@ class DisqusHook implements EventListenerInterface
         return [
             'CommentHelper.beforeRender' => 'disqus',
             'Plugin.Disqus.settingsDefaults' => 'settingsDefaults',
+            'Alter.MenuHelper.render' => 'commentsNav',
         ];
     }
 
@@ -55,6 +56,21 @@ class DisqusHook implements EventListenerInterface
             } else {
                 return '<!-- Disqus plugin not configured -->';
             }
+        }
+    }
+
+    public function commentsNav(Event $event, &$items, &$options)
+    {
+        if (count($items) == 5 &&
+            $items[0]['title'] ==  __d('comment', 'All') &&
+            $options['class'] == 'nav nav-pills'
+        ) {
+            $settings = Plugin::settings('Disqus');
+            $items[] = [
+                'title' => __d('disqus', 'Go to Disqus Moderation'),
+                'url' => 'https://' . $settings['disqus_shortname'] . '.disqus.com/admin/moderate/',
+                'target' => '_blank'
+            ];
         }
     }
 
