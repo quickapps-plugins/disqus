@@ -45,13 +45,13 @@ class DisqusHook implements EventListenerInterface
      */
     public function disqus(Event $event)
     {
-        $subject = $event->subject(); // comment helper        
-        if ($subject->config('visibility') > 0) {
+        $view = $event->subject();     
+        if ($view->Comment->config('visibility') > 0) {
             $event->stopPropagation();
             $settings = Plugin::settings('Disqus');
 
             if (!empty($settings['disqus_shortname'])) {
-                return $subject->_View->element('Disqus.js', ['settings' => $settings]);
+                return $view->element('Disqus.js', ['settings' => $settings]);
             } else {
                 return '<!-- Disqus plugin not configured -->';
             }
