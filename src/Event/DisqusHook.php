@@ -46,11 +46,10 @@ class DisqusHook implements EventListenerInterface
      */
     public function disqus(Event $event)
     {
-        $view = $event->subject();     
+        $view = $event->subject();
         if ($view->Comment->config('visibility') > 0) {
             $event->stopPropagation();
-            $settings = Plugin::settings('Disqus');
-
+            $settings = Plugin::get('Disqus')->settings;
             if (!empty($settings['disqus_shortname'])) {
                 return $view->element('Disqus.js', ['settings' => $settings]);
             } else {
@@ -65,7 +64,7 @@ class DisqusHook implements EventListenerInterface
             $items[0]['title'] ==  __d('comment', 'All') &&
             $options['class'] == 'nav nav-pills'
         ) {
-            $settings = Plugin::settings('Disqus');
+            $settings = Plugin::get('Disqus')->settings;
             $items[] = [
                 'title' => __d('disqus', 'Go to Disqus Moderation'),
                 'url' => 'https://' . $settings['disqus_shortname'] . '.disqus.com/admin/moderate/',
