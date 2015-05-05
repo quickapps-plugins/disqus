@@ -11,9 +11,7 @@
  */
 namespace Disqus\Event;
 
-use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
-use QuickApps\Core\Plugin;
 
 /**
  * Disqus Hook class.
@@ -23,56 +21,20 @@ class DisqusHook implements EventListenerInterface
 {
 
     /**
-     * Returns a list of hooks this Hook Listener is implementing. When the class is
-     * registered in an event manager, each individual method will be associated with
-     * the respective event.
-     *
-     * @return void
+     * {@inheritDoc}
      */
     public function implementedEvents()
     {
         return [
-            'CommentHelper.beforeRender' => 'disqus',
             'Plugin.Disqus.settingsDefaults' => 'settingsDefaults',
-            'Alter.MenuHelper.render' => 'commentsNav',
         ];
     }
 
     /**
-     * Renders Disqus's comments.
+     * Disqus plugin defaults settings values.
      *
-     * @param \Cake\Event\Event $event The event that was triggered
-     * @return string
+     * @return array
      */
-    public function disqus(Event $event)
-    {
-        $view = $event->subject();
-        if ($view->Comment->config('visibility') > 0) {
-            $event->stopPropagation();
-            $settings = Plugin::get('Disqus')->settings;
-            if (!empty($settings['disqus_shortname'])) {
-                return $view->element('Disqus.js', ['settings' => $settings]);
-            } else {
-                return '<!-- Disqus plugin not configured -->';
-            }
-        }
-    }
-
-    public function commentsNav(Event $event, &$items, &$options)
-    {
-        if (count($items) == 5 &&
-            $items[0]['title'] ==  __d('comment', 'All') &&
-            $options['class'] == 'nav nav-pills'
-        ) {
-            $settings = Plugin::get('Disqus')->settings;
-            $items[] = [
-                'title' => __d('disqus', 'Go to Disqus Moderation'),
-                'url' => 'https://' . $settings['disqus_shortname'] . '.disqus.com/admin/moderate/',
-                'target' => '_blank'
-            ];
-        }
-    }
-
     public function settingsDefaults()
     {
         return [
